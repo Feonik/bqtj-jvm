@@ -1,6 +1,7 @@
 package com.BibleQuote.bqtj.jvm.utils;
 
 import com.BibleQuote.bqtj.CoreContext;
+import com.BibleQuote.bqtj.utils.DataConstants;
 import com.BibleQuote.bqtj.utils.IUpdateManager;
 import com.BibleQuote.bqtj.utils.Log;
 
@@ -14,7 +15,7 @@ public class UpdateManagerJvm implements IUpdateManager {
 	public void Init() {
 
 		// Инициализация каталога программы
-		File dir_modules = new File(CoreContext.FS_MODULES_PATH);
+		File dir_modules = new File(DataConstants.FS_MODULES_PATH);
 		if (!dir_modules.exists()) {
 			Log.i(TAG, String.format("Create directory %1$s", dir_modules));
 			dir_modules.mkdirs();

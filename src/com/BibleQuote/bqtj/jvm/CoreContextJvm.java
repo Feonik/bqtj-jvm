@@ -51,7 +51,7 @@ public final class CoreContextJvm extends CoreContext {
 	}
 
 	@Override
-	public File getCacheDir() {
+	public File getSystemCacheDir() {
 		return null;
 	}
 
