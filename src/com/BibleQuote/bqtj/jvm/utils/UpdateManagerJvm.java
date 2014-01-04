@@ -4,23 +4,24 @@ import com.BibleQuote.bqtj.CoreContext;
 import com.BibleQuote.bqtj.utils.DataConstants;
 import com.BibleQuote.bqtj.utils.IUpdateManager;
 import com.BibleQuote.bqtj.utils.Log;
+import com.BibleQuote.bqtj.utils.UpdateManager;
 
 import java.io.*;
 
-public class UpdateManagerJvm implements IUpdateManager {
+public class UpdateManagerJvm extends UpdateManager {
 
 	private final static String TAG = "UpdateManager";
 
+	public UpdateManagerJvm() {
+		super();
+	}
 
-	public void Init() {
+	@Override
+	protected void updateBuiltInModules() {
+	}
 
-		// Инициализация каталога программы
-		File dir_modules = new File(DataConstants.FS_MODULES_PATH);
-		if (!dir_modules.exists()) {
-			Log.i(TAG, String.format("Create directory %1$s", dir_modules));
-			dir_modules.mkdirs();
-		}
-
+	@Override
+	protected void saveTSK() {
 	}
 
 }

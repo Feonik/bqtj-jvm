@@ -1,9 +1,14 @@
 package com.BibleQuote.bqtj.jvm;
 
 import com.BibleQuote.bqtj.CoreContext;
+import com.BibleQuote.bqtj.jvm.utils.UpdateManagerJvm;
+import com.BibleQuote.bqtj.utils.DataConstants;
 import com.BibleQuote.bqtj.utils.UpdateManager;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,12 +37,12 @@ public final class CoreContextJvm extends CoreContext {
 
 	@Override
 	protected UpdateManager getUpdateManager() {
-		return null;
+		return new UpdateManagerJvm();
 	}
 
 	@Override
 	public String getAppVersionName() {
-		return "";
+		return "0.00.01";
 	}
 
 	@Override
@@ -47,19 +52,37 @@ public final class CoreContextJvm extends CoreContext {
 
 	@Override
 	public String getAppDataPath() {
-		return "";
+		// TODO использовать user directory ?
+		// TODO продумать структуру каталогов, пока всё в папке программы
+
+		return getJarContainingFolder(CoreContextJvm.class)
+				+ File.separator + DataConstants.DATA_DIR_NAME;
 	}
 
 	@Override
 	public File getSystemCacheDir() {
-		return null;
+		// TODO getSystemCacheDir() -- пока возвращаем не системный кэш
+		return new File(DataConstants.CACHE_PATH);
 	}
 
-	public static String GetExecutionPath(Object context){
-		String absolutePath = context.getClass().getProtectionDomain()
-				.getCodeSource().getLocation().getPath();
-		absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));
-		return absolutePath;
+
+	public static String getJarContainingFolder(Class aclass) {
+
+		CodeSource codeSource = aclass.getProtectionDomain().getCodeSource();
+
+		URL url = codeSource.getLocation();
+		if (url == null) {
+			url = aclass.getResource(aclass.getSimpleName() + ".class");
+		}
+
+		File jarFile;
+		try {
+			jarFile = new File(url.toURI());
+		} catch(URISyntaxException e) {
+			jarFile = new File(url.getPath());
+		}
+
+		return jarFile.getParentFile().getPath();
 	}
 
 }
